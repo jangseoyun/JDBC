@@ -5,13 +5,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookSelcetAll {
 
 	public static void main(String[] args) {
 		// 책+작가 데이터 가져오기
 		
-		
+		//리스트 생성
+		List<BookAllVo> bookallList = new ArrayList <BookAllVo>();
 		
 		// 0. import java.sql.*;
 		Connection conn = null;
@@ -54,7 +57,7 @@ public class BookSelcetAll {
 				
 				int authorId = rs.getInt("author_id");
 				String authorName = rs.getString("author_name");
-				String authorDesc = rs.getString("author_desc");
+				String bookDesc = rs.getString("author_desc");
 				
 				int bookId = rs.getInt("book_id");
 				String bookTitle = rs.getString("title");
@@ -62,8 +65,19 @@ public class BookSelcetAll {
 				String bookDate = rs.getString("pub_date");
 				int bookAt_id = rs.getInt("author_id");
 			
+				//BookAllVo 생성
+				BookAllVo bavo = new BookAllVo(authorId,authorName,bookDesc,bookId,bookTitle,bookPubs,bookDate,bookAt_id);
 				
-				System.out.println(authorId + ", " + authorName + ", " + authorDesc + ", " + bookId + ", " + bookTitle + "," + bookPubs + ", " + bookDate + ", " + bookAt_id);
+				//리스트에 순차적으로 넣기
+				bookallList.add(bavo);
+				
+				//System.out.println(authorId + ", " + authorName + ", " + authorDesc + ", " + bookId + ", " + bookTitle + "," + bookPubs + ", " + bookDate + ", " + bookAt_id);
+			}
+			
+			//출력하기
+			for(int i = 0; i<bookallList.size(); i++) {
+				BookAllVo bookvo = bookallList.get(i);
+				System.out.println(bookvo.getAuthorId()+", "+bookvo.getAuthorName()+", "+bookvo.getAuthorDesc()+", "+bookvo.getBookId()+", "+bookvo.getBookTitle()+", "+bookvo.getBookPubs()+", "+bookvo.getBookDate()+", "+bookvo.getBookAtId());
 			}
 			
 		} catch (ClassNotFoundException e) {
